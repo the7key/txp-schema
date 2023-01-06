@@ -1,0 +1,11 @@
+CreateJianRequest:
+  description: 事案作成リクエスト
+  type: object
+  properties:
+    name:
+      $ref: "../schemas/Jian.yml#/Jian/properties/name"
+    description:
+      $ref: "../schemas/Jian.yml#/Jian/properties/description"
+  required:
+    - name
+    - description

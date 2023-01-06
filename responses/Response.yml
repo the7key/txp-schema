@@ -1,0 +1,7 @@
+ResponseComponentMessage:
+  type: object
+  properties:
+    message:
+      type: string
+      description: メッセージ
+      example: Hello, world!

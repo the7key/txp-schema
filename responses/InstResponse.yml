@@ -1,0 +1,9 @@
+InstResponse:
+  description: 施設
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/Inst.yml#/Inst"
+      examples:
+        example-1:
+          $ref: "../schemas/Inst.yml#/InstExample1"

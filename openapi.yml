@@ -1,0 +1,76 @@
+---
+openapi: 3.0.3
+
+servers:
+  - url: https://a.sample.com
+    description: server
+
+info:
+  description: |
+    # APIの仕様
+  title: API Document
+  version: 0.0.1
+
+components:
+  securitySchemes:
+    cookie:
+      description: Session Auth
+      type: apiKey
+      in: cookie
+      name: a.sample.com
+
+tags:
+  - name: jian
+    x-displayName: 事案
+    description: 事案管理
+  - name: instGroup
+    x-displayName: 施設グループ
+    description: 施設グループ管理
+  - name: inst
+    x-displayName: 施設
+    description: 施設管理
+  - name: call
+    x-displayName: 一斉架電
+    description: 一斉架電管理
+
+paths:
+  /jians:
+    summary: |
+      - GET: 事案リスト取得
+      - POST: 事案登録
+    $ref: "./paths/jians.yml"
+  /jians/{jianId}/calls:
+    summary: |
+      - POST: 一斉架電登録
+    $ref: "./paths/calls.yml"
+  /inst-groups:
+    summary: |
+      - GET: 施設グループリスト取得
+      - POST: 施設グループ登録
+    $ref: "./paths/instGroups.yml"
+  /inst-groups/{instGroupId}:
+    summary: |
+      - GET: 施設グループ情報取得
+    $ref: "./paths/instGroup.yml"
+  /insts:
+    summary: |
+      - GET: 施設リスト取得
+      - POST: 施設登録
+    $ref: "./paths/insts.yml"
+  /insts/{instId}:
+    summary: |
+      - GET: 施設情報取得
+    $ref: "./paths/inst.yml"
+  # /jians/{jianId}:
+  #   summary: |
+  #     - GET: 事案情報取得
+  #   $ref: "./paths/jian.yml"
+  # /jians/{jianId}/calls/{callId}:
+  #   summary: |
+  #     - GET: 一斉架電情報取得
+  #   $ref: "./paths/call.yml"
+  # /inst-groups/{instGroupId}/members:
+  #   summary: |
+  #     - PUT: 施設グループ構成変更
+  #   $ref: "./paths/instGroup_members.yml"
+  

@@ -1,0 +1,31 @@
+get:
+  summary: 施設グループ一覧を返す
+  tags:
+    - instGroup
+  operationId: getInstGroups
+  responses:
+    "200":
+      $ref: "../responses/InstGroupsResponse.yml#/InstGroupsResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"
+
+post:
+  summary: 施設グループを作成する
+  tags:
+    - instGroup
+  operationId: createInstGroup
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../requests/InstGroupRequest.yml#/CreateInstGroupRequest"
+  responses:
+    "201":
+      $ref: "../responses/InstGroupResponse.yml#/InstGroupResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"

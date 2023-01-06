@@ -1,0 +1,9 @@
+JianResponse:
+  description: 事案
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/Jian.yml#/Jian"
+      examples:
+        example-1:
+          $ref: "../schemas/Jian.yml#/JianExample1"

@@ -1,0 +1,35 @@
+Pager:
+  description: レスポンスのページネーション情報
+  type: object
+  properties:
+    page:
+      type: integer
+      description: ページ番号
+      example: 1
+    size:
+      type: integer
+      description: 1ページあたりの取得件数
+      example: 50
+    totalPage:
+      type: integer
+      description: 全ページ数
+      example: 5
+    totalCount:
+      type: integer
+      description: 全ページでのレコードの件数
+      example: 234
+    hasPrevPage:
+      type: boolean
+      description: 前のページがあるかどうか
+      example: false
+    hasNextPage:
+      type: boolean
+      description: 次のページがあるかどうか
+      example: true
+  required:
+    - page
+    - size
+    - totalPage
+    - totalCount
+    - hasPrevPage
+    - hasNextPage

@@ -1,0 +1,20 @@
+post:
+  summary: 一斉架電を登録する
+  tags:
+    - call
+  operationId: createCall
+  parameters:
+    - $ref: "../parameters/parameters.yml#/jianIdParam"
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../requests/CallRequest.yml#/CreateCallRequest"
+  responses:
+    "201":
+      $ref: "../responses/CallResponse.yml#/CallResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"

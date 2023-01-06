@@ -1,0 +1,76 @@
+Jian:
+  description: 事案
+  type: object
+  properties:
+    id:
+      description: 事案ID
+      type: string
+      pattern: ^jian[2-7A-Z]{16}$
+      example: jianYTW5CXCOHCNOVU3I
+    name:
+      description: |
+        事案名
+      type: string
+      nullable: true
+      minLength: 1
+      maxLength: 191
+      example: 20220101の事案
+    description:
+      description: 説明
+      type: string
+      nullable: true
+      example: 東京都在宅からの救急要請。
+    createdAt:
+      description: 作成日時
+      type: string
+      format: date-time
+      example: 2021-01-23T01:23:45.678Z
+    updatedAt:
+      description: 更新日時（最初は作成日時）
+      type: string
+      format: date-time
+      example: 2021-01-23T01:23:45.678Z
+  required:
+    - id
+    - name
+    - createdAt
+    - updatedAt
+
+JianExample1:
+  value:
+    id: jianYTW5CXCOHCNOVU3I
+    name: 20220101の事例
+    description: 東京都在宅からの救急要請。
+    createdAt: "2021-01-23T01:23:45.678Z"
+    updatedAt: "2021-01-23T01:23:45.678Z"
+
+Jians:
+  type: array
+  items:
+    $ref: "#/Jian"
+
+JiansResponse:
+  description: 事案一覧
+  type: object
+  properties:
+    pager:
+      $ref: "./Pager.yml#/Pager"
+    data:
+      $ref: "./Jian.yml#/Jians"
+  required:
+    - pager
+    - data
+
+JiansResponseExample:
+  value:
+    data:
+      - id: jianYTW5CXCOHCNOVU3I
+        name: 20220101の事例
+        description: 東京都在宅からの救急要請。
+        createdAt: "2021-01-23T01:23:45.678Z"
+        updatedAt: "2021-01-23T01:23:45.678Z"
+      - id: jianYTW5CXCOHCNOVU3I
+        name: 20220102の事例
+        description: 東京都交差点からの救急要請。
+        createdAt: "2021-01-23T01:23:45.678Z"
+        updatedAt: "2021-01-23T01:23:45.678Z"

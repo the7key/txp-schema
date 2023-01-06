@@ -1,0 +1,11 @@
+CreateInstRequest:
+  description: 施設登録リクエスト
+  type: object
+  properties:
+    name:
+      $ref: "../schemas/Inst.yml#/Inst/properties/name"
+    description:
+      $ref: "../schemas/Inst.yml#/Inst/properties/description"
+  required:
+    - name
+    - description

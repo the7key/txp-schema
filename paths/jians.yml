@@ -1,0 +1,36 @@
+get:
+  summary: 事案一覧を返す
+  tags:
+    - jian
+  operationId: getJians
+  parameters:
+    - $ref: "../parameters/parameters.yml#/pageParam"
+    - $ref: "../parameters/parameters.yml#/sizeParam"
+    - $ref: "../parameters/parameters.yml#/sortParam"
+    - $ref: "../parameters/parameters.yml#/jianNameParam"
+  responses:
+    "200":
+      $ref: "../responses/JiansResponse.yml#/JiansResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"
+
+post:
+  summary: 事案を作成する
+  tags:
+    - jian
+  operationId: createJian
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../requests/JianRequest.yml#/CreateJianRequest"
+  responses:
+    "201":
+      $ref: "../responses/JianResponse.yml#/JianResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"

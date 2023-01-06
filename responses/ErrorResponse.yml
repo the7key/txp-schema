@@ -1,0 +1,17 @@
+InternalServerErrorResponse:
+  description: サーバーエラー
+  content:
+    application/json:
+      schema:
+        $ref: "./Response.yml#/ResponseComponentMessage"
+      example:
+        message: Internal Server Error
+
+NotFoundResponse:
+  description: 対象が見つからない
+  content:
+    application/json:
+      schema:
+        $ref: "./Response.yml#/ResponseComponentMessage"
+      example:
+        message: XXX not found

@@ -1,0 +1,73 @@
+jianIdParam:
+  description: 対象の事案ID
+  in: path
+  name: jianId
+  required: true
+  schema:
+    $ref: "../schemas/Jian.yml#/Jian/properties/id"
+
+instIdParam:
+  description: 対象の施設ID
+  in: path
+  name: instId
+  required: true
+  schema:
+    $ref: "../schemas/Inst.yml#/Inst/properties/id"
+
+instGroupIdParam:
+  description: 対象の施設グループID
+  in: path
+  name: instGroupId
+  required: true
+  schema:
+    $ref: "../schemas/InstGroup.yml#/InstGroup/properties/id"
+
+callIdParam:
+  description: 一斉架電ID
+  in: path
+  name: callId
+  required: true
+  schema:
+    $ref: "../schemas/Call.yml#/Call/properties/id"
+
+jianNameParam:
+  description: 事案名での絞り込み
+  in: query
+  name: name
+  schema:
+    type: string
+
+instNameParam:
+  description: 施設名での絞り込み
+  in: query
+  name: name
+  schema:
+    type: string
+
+pageParam:
+  description: ページ番号
+  in: query
+  name: page
+  schema:
+    type: integer
+    default: 1
+    minimum: 1
+
+sizeParam:
+  description: 取得件数
+  in: query
+  name: size
+  schema:
+    type: integer
+    default: 50
+    minimum: 1
+    maximum: 100
+    
+sortParam:
+  description: ソート順。日時でソートする場合は createdAt や -createdAt を指定する
+  in: query
+  name: sort
+  schema:
+    type: string
+    # イベント系の列挙を想定
+    default: createdAt

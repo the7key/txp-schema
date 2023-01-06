@@ -1,0 +1,35 @@
+get:
+  summary: 施設情報を返す
+  tags:
+    - inst
+  operationId: getInst
+  parameters:
+    - $ref: "../parameters/parameters.yml#/instIdParam"
+  responses:
+    "200":
+      $ref: "../responses/InstResponse.yml#/InstResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"
+
+# patch:
+#   summary: ケースを更新する
+#   tags:
+#     - case
+#   operationId: updateCase
+#   parameters:
+#     - $ref: "../parameters/parameters.yml#/caseIdParam"
+#   requestBody:
+#     required: true
+#     content:
+#       application/json:
+#         schema:
+#           $ref: "../requests/CaseRequest.yml#/UpdateCaseRequest"
+#   responses:
+#     "200":
+#       $ref: "../responses/CaseResponse.yml#/CaseResponse"
+#     "404":
+#       $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+#     "500":
+#       $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"

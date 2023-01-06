@@ -1,0 +1,11 @@
+CreateInstGroupRequest:
+  description: 施設グループ登録リクエスト
+  type: object
+  properties:
+    name:
+      $ref: "../schemas/InstGroup.yml#/InstGroup/properties/name"
+    description:
+      $ref: "../schemas/InstGroup.yml#/InstGroup/properties/description"
+  required:
+    - name
+    - description

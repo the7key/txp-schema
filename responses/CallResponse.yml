@@ -1,0 +1,9 @@
+CallResponse:
+  description: 一斉架電
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/Call.yml#/Call"
+      examples:
+        example-1:
+          $ref: "../schemas/Call.yml#/CallExample1"

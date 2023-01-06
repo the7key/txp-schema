@@ -1,0 +1,85 @@
+Inst:
+  description: 施設
+  type: object
+  properties:
+    id:
+      description: 施設ID
+      type: string
+      pattern: ^inst[2-7A-Z]{16}$
+      example: instYTW5CXCOHCNOVU3I
+    name:
+      description: |
+        施設名
+      type: string
+      nullable: true
+      minLength: 1
+      maxLength: 191
+      example: A病院
+    description:
+      description: 説明
+      type: string
+      nullable: true
+      example: 〇〇県３次救急病院
+    phoneNo:
+      description: 電話番号
+      type: string
+      nullable: true
+      example: 090-0000-0000
+    createdAt:
+      description: 作成日時
+      type: string
+      format: date-time
+      example: 2021-01-23T01:23:45.678Z
+    updatedAt:
+      description: 更新日時（最初は作成日時）
+      type: string
+      format: date-time
+      example: 2021-01-23T01:23:45.678Z
+  required:
+    - id
+    - name
+    - noneNo
+    - createdAt
+    - updatedAt
+
+InstExample1:
+  value:
+    id: instYTW5CXCOHCNOVU3I
+    name: A病院
+    description: 〇〇県３次救急病院
+    phoneNo: 090-0000-0000
+    createdAt: "2021-01-23T01:23:45.678Z"
+    updatedAt: "2021-01-23T01:23:45.678Z"
+
+Insts:
+  type: array
+  items:
+    $ref: "#/Inst"
+
+InstsResponse:
+  description: 施設一覧
+  type: object
+  properties:
+    pager:
+      $ref: "./Pager.yml#/Pager"
+    data:
+      $ref: "./Inst.yml#/Insts"
+  required:
+    - pager
+    - data
+
+InstsResponseExample:
+  value:
+    data:
+      - id: instYTW5CXCOHCNOVU3I
+        name: A病院
+        description: 〇〇県３次救急病院
+        phoneNo: 090-0000-0000
+        createdAt: "2021-01-23T01:23:45.678Z"
+        updatedAt: "2021-01-23T01:23:45.678Z"
+      - id: instYTW5CXCOHCNOVU3I
+        name: B病院
+        description: 〇〇県３次救急病院
+        phoneNo: 090-0000-0000
+        createdAt: "2021-01-23T01:23:45.678Z"
+        updatedAt: "2021-01-23T01:23:45.678Z"

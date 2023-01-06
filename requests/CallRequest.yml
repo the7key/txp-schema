@@ -1,0 +1,14 @@
+CreateCallRequest:
+  description: 一斉架電登録リクエスト
+  type: object
+  properties:
+    name:
+      $ref: "../schemas/Call.yml#/Call/properties/name"
+    description:
+      $ref: "../schemas/Call.yml#/Call/properties/description"
+    phoneNos:
+       $ref: "../schemas/Call.yml#/PhoneNos"
+  required:
+    - name
+    - description
+    - phoneNos

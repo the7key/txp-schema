@@ -1,0 +1,1042 @@
+openapi: 3.0.3
+info:
+  description: |
+    # APIの仕様
+  title: API Document
+  version: 0.0.1
+servers:
+- description: server
+  url: https://a.sample.com
+tags:
+- description: 事案管理
+  name: jian
+  x-displayName: 事案
+- description: 施設グループ管理
+  name: instGroup
+  x-displayName: 施設グループ
+- description: 施設管理
+  name: inst
+  x-displayName: 施設
+- description: 一斉架電管理
+  name: call
+  x-displayName: 一斉架電
+paths:
+  /jians:
+    get:
+      operationId: getJians
+      parameters:
+      - description: ページ番号
+        in: query
+        name: page
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+      - description: 取得件数
+        in: query
+        name: size
+        schema:
+          default: 50
+          maximum: 100
+          minimum: 1
+          type: integer
+      - description: ソート順。日時でソートする場合は createdAt や -createdAt を指定する
+        in: query
+        name: sort
+        schema:
+          default: createdAt
+          type: string
+      - description: 事案名での絞り込み
+        in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/JiansResponseExample'
+              schema:
+                $ref: '#/components/schemas/JiansResponse'
+          description: 事案一覧
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 事案一覧を返す
+      tags:
+      - jian
+    post:
+      operationId: createJian
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJianRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/JianExample1'
+              schema:
+                $ref: '#/components/schemas/Jian'
+          description: 事案
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 事案を作成する
+      tags:
+      - jian
+  /jians/{jianId}/calls:
+    post:
+      operationId: createCall
+      parameters:
+      - description: 対象の事案ID
+        in: path
+        name: jianId
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCallRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/CallExample1'
+              schema:
+                $ref: '#/components/schemas/Call'
+          description: 一斉架電
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 一斉架電を登録する
+      tags:
+      - call
+  /inst-groups:
+    get:
+      operationId: getInstGroups
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/InstGroupsResponseExample'
+              schema:
+                $ref: '#/components/schemas/InstGroupsResponse'
+          description: 施設グループ一覧
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 施設グループ一覧を返す
+      tags:
+      - instGroup
+    post:
+      operationId: createInstGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInstGroupRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/InstGroupExample1'
+              schema:
+                $ref: '#/components/schemas/InstGroup'
+          description: 施設グループ
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 施設グループを作成する
+      tags:
+      - instGroup
+  /inst-groups/{instGroupId}:
+    get:
+      operationId: getInstGroup
+      parameters:
+      - description: 対象の施設グループID
+        in: path
+        name: instGroupId
+        required: true
+        schema:
+          $ref: '#/components/schemas/id_1'
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/InstGroupExample1'
+              schema:
+                $ref: '#/components/schemas/InstGroup'
+          description: 施設グループ
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 施設グループ情報を返す
+      tags:
+      - instGroup
+  /insts:
+    get:
+      operationId: getInsts
+      parameters:
+      - description: ページ番号
+        in: query
+        name: page
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+      - description: 取得件数
+        in: query
+        name: size
+        schema:
+          default: 50
+          maximum: 100
+          minimum: 1
+          type: integer
+      - description: ソート順。日時でソートする場合は createdAt や -createdAt を指定する
+        in: query
+        name: sort
+        schema:
+          default: createdAt
+          type: string
+      - description: 施設名での絞り込み
+        in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/InstsResponseExample'
+              schema:
+                $ref: '#/components/schemas/InstsResponse'
+          description: 施設一覧
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 施設一覧を返す
+      tags:
+      - inst
+    post:
+      operationId: createInst
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInstRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/InstExample1'
+              schema:
+                $ref: '#/components/schemas/Inst'
+          description: 施設
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 施設を登録する
+      tags:
+      - inst
+  /insts/{instId}:
+    get:
+      operationId: getInst
+      parameters:
+      - description: 対象の施設ID
+        in: path
+        name: instId
+        required: true
+        schema:
+          $ref: '#/components/schemas/id_2'
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/InstExample1'
+              schema:
+                $ref: '#/components/schemas/Inst'
+          description: 施設
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: 施設情報を返す
+      tags:
+      - inst
+components:
+  examples:
+    JiansResponseExample:
+      value:
+        data:
+        - id: jianYTW5CXCOHCNOVU3I
+          name: 20220101の事例
+          description: 東京都在宅からの救急要請。
+          createdAt: 2021-01-23T01:23:45.678Z
+          updatedAt: 2021-01-23T01:23:45.678Z
+        - id: jianYTW5CXCOHCNOVU3I
+          name: 20220102の事例
+          description: 東京都交差点からの救急要請。
+          createdAt: 2021-01-23T01:23:45.678Z
+          updatedAt: 2021-01-23T01:23:45.678Z
+    JianExample1:
+      value:
+        id: jianYTW5CXCOHCNOVU3I
+        name: 20220101の事例
+        description: 東京都在宅からの救急要請。
+        createdAt: 2021-01-23T01:23:45.678Z
+        updatedAt: 2021-01-23T01:23:45.678Z
+    CallExample1:
+      value:
+        id: callYTW5CXCOHCNOVU3I
+        name: 事案No111-1
+        description: 事案No111の架電
+        createdAt: 2021-01-23T01:23:45.678Z
+        updatedAt: 2021-01-23T01:23:45.678Z
+    InstGroupsResponseExample:
+      value:
+        data:
+        - id: insgYTW5CXCOHCNOVU3I
+          name: 3次救急施設グループ
+          description: 〇〇県の全ての3次救急病院
+          createdAt: 2021-01-23T01:23:45.678Z
+          updatedAt: 2021-01-23T01:23:45.678Z
+        - id: insgYTW5CXCOHCNOVU3I
+          name: 2次救急施設グループ
+          description: 〇〇県の全ての2次救急病院
+          createdAt: 2021-01-23T01:23:45.678Z
+          updatedAt: 2021-01-23T01:23:45.678Z
+    InstGroupExample1:
+      value:
+        id: insgYTW5CXCOHCNOVU3I
+        name: 3次救急施設グループ
+        description: 〇〇県の全ての3次救急病院
+        createdAt: 2021-01-23T01:23:45.678Z
+        updatedAt: 2021-01-23T01:23:45.678Z
+    InstsResponseExample:
+      value:
+        data:
+        - id: instYTW5CXCOHCNOVU3I
+          name: A病院
+          description: 〇〇県３次救急病院
+          phoneNo: 090-0000-0000
+          createdAt: 2021-01-23T01:23:45.678Z
+          updatedAt: 2021-01-23T01:23:45.678Z
+        - id: instYTW5CXCOHCNOVU3I
+          name: B病院
+          description: 〇〇県３次救急病院
+          phoneNo: 090-0000-0000
+          createdAt: 2021-01-23T01:23:45.678Z
+          updatedAt: 2021-01-23T01:23:45.678Z
+    InstExample1:
+      value:
+        id: instYTW5CXCOHCNOVU3I
+        name: A病院
+        description: 〇〇県３次救急病院
+        phoneNo: 090-0000-0000
+        createdAt: 2021-01-23T01:23:45.678Z
+        updatedAt: 2021-01-23T01:23:45.678Z
+  schemas:
+    JiansResponse:
+      description: 事案一覧
+      example:
+        pager:
+          hasPrevPage: false
+          size: 50
+          hasNextPage: true
+          totalPage: 5
+          page: 1
+          totalCount: 234
+        data:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: 20220101の事案
+          description: 東京都在宅からの救急要請。
+          id: jianYTW5CXCOHCNOVU3I
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: 20220101の事案
+          description: 東京都在宅からの救急要請。
+          id: jianYTW5CXCOHCNOVU3I
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        pager:
+          $ref: '#/components/schemas/Pager'
+        data:
+          items:
+            $ref: '#/components/schemas/Jian'
+          type: array
+      required:
+      - data
+      - pager
+      type: object
+    ResponseComponentMessage:
+      properties:
+        message:
+          description: メッセージ
+          example: Hello, world!
+          type: string
+      type: object
+    CreateJianRequest:
+      description: 事案作成リクエスト
+      example:
+        name: 20220101の事案
+        description: 東京都在宅からの救急要請。
+      properties:
+        name:
+          description: |
+            事案名
+          example: 20220101の事案
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 東京都在宅からの救急要請。
+          nullable: true
+          type: string
+      required:
+      - description
+      - name
+      type: object
+    Jian:
+      description: 事案
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: 20220101の事案
+        description: 東京都在宅からの救急要請。
+        id: jianYTW5CXCOHCNOVU3I
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          description: 事案ID
+          example: jianYTW5CXCOHCNOVU3I
+          pattern: ^jian[2-7A-Z]{16}$
+          type: string
+        name:
+          description: |
+            事案名
+          example: 20220101の事案
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 東京都在宅からの救急要請。
+          nullable: true
+          type: string
+        createdAt:
+          description: 作成日時
+          format: date-time
+          type: string
+        updatedAt:
+          description: 更新日時（最初は作成日時）
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - updatedAt
+      type: object
+    id:
+      description: 事案ID
+      example: jianYTW5CXCOHCNOVU3I
+      pattern: ^jian[2-7A-Z]{16}$
+      type: string
+    CreateCallRequest:
+      description: 一斉架電登録リクエスト
+      example:
+        phoneNos:
+        - phoneNo: 090-0000-0000
+        - phoneNo: 090-0000-0000
+        name: 事案No111-1
+        description: 事案No111の架電
+      properties:
+        name:
+          description: |
+            架電名
+          example: 事案No111-1
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 事案No111の架電
+          nullable: true
+          type: string
+        phoneNos:
+          items:
+            $ref: '#/components/schemas/PhoneNo'
+          type: array
+      required:
+      - description
+      - name
+      - phoneNos
+      type: object
+    Call:
+      description: 一斉架電
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: 事案No111-1
+        description: 事案No111の架電
+        id: callYTW5CXCOHCNOVU3I
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          description: 一斉架電ID
+          example: callYTW5CXCOHCNOVU3I
+          pattern: ^call[2-7A-Z]{16}$
+          type: string
+        name:
+          description: |
+            架電名
+          example: 事案No111-1
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 事案No111の架電
+          nullable: true
+          type: string
+        createdAt:
+          description: 作成日時
+          format: date-time
+          type: string
+        updatedAt:
+          description: 更新日時（最初は作成日時）
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - updatedAt
+      type: object
+    InstGroupsResponse:
+      description: 施設グループ一覧
+      example:
+        pager:
+          hasPrevPage: false
+          size: 50
+          hasNextPage: true
+          totalPage: 5
+          page: 1
+          totalCount: 234
+        data:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          instGroupMembers:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            name: A病院
+            description: 〇〇県３次救急病院
+            id: instYTW5CXCOHCNOVU3I
+            phoneNo: 090-0000-0000
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            name: A病院
+            description: 〇〇県３次救急病院
+            id: instYTW5CXCOHCNOVU3I
+            phoneNo: 090-0000-0000
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          name: 3次救急施設グループ
+          description: 〇〇県の全ての3次救急病院
+          id: insgYTW5CXCOHCNOVU3I
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          instGroupMembers:
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            name: A病院
+            description: 〇〇県３次救急病院
+            id: instYTW5CXCOHCNOVU3I
+            phoneNo: 090-0000-0000
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          - createdAt: 2000-01-23T04:56:07.000+00:00
+            name: A病院
+            description: 〇〇県３次救急病院
+            id: instYTW5CXCOHCNOVU3I
+            phoneNo: 090-0000-0000
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          name: 3次救急施設グループ
+          description: 〇〇県の全ての3次救急病院
+          id: insgYTW5CXCOHCNOVU3I
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        pager:
+          $ref: '#/components/schemas/Pager'
+        data:
+          items:
+            $ref: '#/components/schemas/InstGroup'
+          type: array
+      required:
+      - data
+      - pager
+      type: object
+    CreateInstGroupRequest:
+      description: 施設グループ登録リクエスト
+      example:
+        name: 3次救急施設グループ
+        description: 〇〇県の全ての3次救急病院
+      properties:
+        name:
+          description: |
+            施設グループ名
+          example: 3次救急施設グループ
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 〇〇県の全ての3次救急病院
+          nullable: true
+          type: string
+      required:
+      - description
+      - name
+      type: object
+    InstGroup:
+      description: 施設グループ
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        instGroupMembers:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: A病院
+          description: 〇〇県３次救急病院
+          id: instYTW5CXCOHCNOVU3I
+          phoneNo: 090-0000-0000
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: A病院
+          description: 〇〇県３次救急病院
+          id: instYTW5CXCOHCNOVU3I
+          phoneNo: 090-0000-0000
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        name: 3次救急施設グループ
+        description: 〇〇県の全ての3次救急病院
+        id: insgYTW5CXCOHCNOVU3I
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          description: 施設グループID
+          example: insgYTW5CXCOHCNOVU3I
+          pattern: ^insg[2-7A-Z]{16}$
+          type: string
+        name:
+          description: |
+            施設グループ名
+          example: 3次救急施設グループ
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 〇〇県の全ての3次救急病院
+          nullable: true
+          type: string
+        instGroupMembers:
+          description: グループに所属する施設一覧
+          items:
+            $ref: '#/components/schemas/Inst'
+          nullable: true
+          type: array
+        createdAt:
+          description: 作成日時
+          format: date-time
+          type: string
+        updatedAt:
+          description: 更新日時（最初は作成日時）
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - updatedAt
+      type: object
+    id_1:
+      description: 施設グループID
+      example: insgYTW5CXCOHCNOVU3I
+      pattern: ^insg[2-7A-Z]{16}$
+      type: string
+    InstsResponse:
+      description: 施設一覧
+      example:
+        pager:
+          hasPrevPage: false
+          size: 50
+          hasNextPage: true
+          totalPage: 5
+          page: 1
+          totalCount: 234
+        data:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: A病院
+          description: 〇〇県３次救急病院
+          id: instYTW5CXCOHCNOVU3I
+          phoneNo: 090-0000-0000
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          name: A病院
+          description: 〇〇県３次救急病院
+          id: instYTW5CXCOHCNOVU3I
+          phoneNo: 090-0000-0000
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        pager:
+          $ref: '#/components/schemas/Pager'
+        data:
+          items:
+            $ref: '#/components/schemas/Inst'
+          type: array
+      required:
+      - data
+      - pager
+      type: object
+    CreateInstRequest:
+      description: 施設登録リクエスト
+      example:
+        name: A病院
+        description: 〇〇県３次救急病院
+      properties:
+        name:
+          description: |
+            施設名
+          example: A病院
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 〇〇県３次救急病院
+          nullable: true
+          type: string
+      required:
+      - description
+      - name
+      type: object
+    Inst:
+      description: 施設
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: A病院
+        description: 〇〇県３次救急病院
+        id: instYTW5CXCOHCNOVU3I
+        phoneNo: 090-0000-0000
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          description: 施設ID
+          example: instYTW5CXCOHCNOVU3I
+          pattern: ^inst[2-7A-Z]{16}$
+          type: string
+        name:
+          description: |
+            施設名
+          example: A病院
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 〇〇県３次救急病院
+          nullable: true
+          type: string
+        phoneNo:
+          description: 電話番号
+          example: 090-0000-0000
+          nullable: true
+          type: string
+        createdAt:
+          description: 作成日時
+          format: date-time
+          type: string
+        updatedAt:
+          description: 更新日時（最初は作成日時）
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - noneNo
+      - updatedAt
+      type: object
+    id_2:
+      description: 施設ID
+      example: instYTW5CXCOHCNOVU3I
+      pattern: ^inst[2-7A-Z]{16}$
+      type: string
+    Pager:
+      description: レスポンスのページネーション情報
+      example:
+        hasPrevPage: false
+        size: 50
+        hasNextPage: true
+        totalPage: 5
+        page: 1
+        totalCount: 234
+      properties:
+        page:
+          description: ページ番号
+          example: 1
+          type: integer
+        size:
+          description: 1ページあたりの取得件数
+          example: 50
+          type: integer
+        totalPage:
+          description: 全ページ数
+          example: 5
+          type: integer
+        totalCount:
+          description: 全ページでのレコードの件数
+          example: 234
+          type: integer
+        hasPrevPage:
+          description: 前のページがあるかどうか
+          example: false
+          type: boolean
+        hasNextPage:
+          description: 次のページがあるかどうか
+          example: true
+          type: boolean
+      required:
+      - hasNextPage
+      - hasPrevPage
+      - page
+      - size
+      - totalCount
+      - totalPage
+      type: object
+    Jians:
+      items:
+        $ref: '#/components/schemas/Jian'
+      type: array
+    name:
+      description: |
+        事案名
+      example: 20220101の事案
+      maxLength: 191
+      minLength: 1
+      nullable: true
+      type: string
+    description:
+      description: 説明
+      example: 東京都在宅からの救急要請。
+      nullable: true
+      type: string
+    name_1:
+      description: |
+        架電名
+      example: 事案No111-1
+      maxLength: 191
+      minLength: 1
+      nullable: true
+      type: string
+    description_1:
+      description: 説明
+      example: 事案No111の架電
+      nullable: true
+      type: string
+    PhoneNos:
+      items:
+        $ref: '#/components/schemas/PhoneNo'
+      type: array
+    PhoneNo:
+      description: 一斉架電対象電話番号
+      example:
+        phoneNo: 090-0000-0000
+      properties:
+        phoneNo:
+          description: 一斉架電対象電話番号
+          example: 090-0000-0000
+          type: string
+      type: object
+    InstGroups:
+      items:
+        $ref: '#/components/schemas/InstGroup'
+      type: array
+    name_2:
+      description: |
+        施設グループ名
+      example: 3次救急施設グループ
+      maxLength: 191
+      minLength: 1
+      nullable: true
+      type: string
+    description_2:
+      description: 説明
+      example: 〇〇県の全ての3次救急病院
+      nullable: true
+      type: string
+    Insts:
+      items:
+        $ref: '#/components/schemas/Inst'
+      type: array
+    name_3:
+      description: |
+        施設名
+      example: A病院
+      maxLength: 191
+      minLength: 1
+      nullable: true
+      type: string
+    description_3:
+      description: 説明
+      example: 〇〇県３次救急病院
+      nullable: true
+      type: string
+  securitySchemes:
+    cookie:
+      description: Session Auth
+      in: cookie
+      name: a.sample.com
+      type: apiKey

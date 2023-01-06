@@ -1,0 +1,36 @@
+get:
+  summary: 施設一覧を返す
+  tags:
+    - inst
+  operationId: getInsts
+  parameters:
+    - $ref: "../parameters/parameters.yml#/pageParam"
+    - $ref: "../parameters/parameters.yml#/sizeParam"
+    - $ref: "../parameters/parameters.yml#/sortParam"
+    - $ref: "../parameters/parameters.yml#/instNameParam"
+  responses:
+    "200":
+      $ref: "../responses/InstsResponse.yml#/InstsResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"
+
+post:
+  summary: 施設を登録する
+  tags:
+    - inst
+  operationId: createInst
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../requests/InstRequest.yml#/CreateInstRequest"
+  responses:
+    "201":
+      $ref: "../responses/InstResponse.yml#/InstResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"

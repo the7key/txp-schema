@@ -1,0 +1,8 @@
+LogoutResponse:
+  description: ログアウト
+  content:
+    application/json:
+      schema:
+        $ref: "./Response.yml#/ResponseComponentMessage"
+      example:
+        message: Logout

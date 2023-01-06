@@ -1,0 +1,9 @@
+InstGroupsResponse:
+  description: 施設グループ一覧
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/InstGroup.yml#/InstGroupsResponse"
+      examples:
+        example-1:
+          $ref: "../schemas/InstGroup.yml#/InstGroupsResponseExample"

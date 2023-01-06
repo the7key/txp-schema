@@ -1,0 +1,14 @@
+get:
+  summary: 施設グループ情報を返す
+  tags:
+    - instGroup
+  operationId: getInstGroup
+  parameters:
+    - $ref: "../parameters/parameters.yml#/instGroupIdParam"
+  responses:
+    "200":
+      $ref: "../responses/InstGroupResponse.yml#/InstGroupResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"

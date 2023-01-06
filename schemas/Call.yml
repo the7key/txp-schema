@@ -1,0 +1,90 @@
+Call:
+  description: 一斉架電
+  type: object
+  properties:
+    id:
+      description: 一斉架電ID
+      type: string
+      pattern: ^call[2-7A-Z]{16}$
+      example: callYTW5CXCOHCNOVU3I
+    name:
+      description: |
+        架電名
+      type: string
+      nullable: true
+      minLength: 1
+      maxLength: 191
+      example: 事案No111-1
+    description:
+      description: 説明
+      type: string
+      nullable: true
+      example: 事案No111の架電
+    createdAt:
+      description: 作成日時
+      type: string
+      format: date-time
+      example: 2021-01-23T01:23:45.678Z
+    updatedAt:
+      description: 更新日時（最初は作成日時）
+      type: string
+      format: date-time
+      example: 2021-01-23T01:23:45.678Z
+  required:
+    - id
+    - name
+    - createdAt
+    - updatedAt
+
+CallExample1:
+  value:
+    id: callYTW5CXCOHCNOVU3I
+    name: 事案No111-1
+    description: 事案No111の架電
+    createdAt: "2021-01-23T01:23:45.678Z"
+    updatedAt: "2021-01-23T01:23:45.678Z"
+
+Calls:
+  type: array
+  items:
+    $ref: "#/Call"
+
+CallsResponse:
+  description: 一斉架電一覧
+  type: object
+  properties:
+    pager:
+      $ref: "./Pager.yml#/Pager"
+    data:
+      $ref: "./Call.yml#/Calls"
+  required:
+    - pager
+    - data
+
+CallsResponseExample:
+  value:
+    data:
+      - id: callYTW5CXCOHCNOVU3I
+        name: 事案No111-1
+        description: 事案No111の1回目架電
+        createdAt: "2021-01-23T01:23:45.678Z"
+        updatedAt: "2021-01-23T01:23:45.678Z"
+      - id: callYTW5CXCOHCNOVU3I
+        name: 事案No211-2
+        description:  事案No211の2回目架電
+        createdAt: "2021-01-23T01:23:45.678Z"
+        updatedAt: "2021-01-23T01:23:45.678Z"
+
+PhoneNo:
+  description: 一斉架電対象電話番号
+  type: object
+  properties:
+    phoneNo:
+      description: 一斉架電対象電話番号
+      type: string
+      example: 090-0000-0000
+
+PhoneNos:
+  type: array
+  items:
+    $ref: "#/PhoneNo"

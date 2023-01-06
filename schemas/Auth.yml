@@ -1,0 +1,23 @@
+Auth:
+  description: 認証
+  type: object
+  properties:
+    user:
+      description: ユーザー
+      type: object
+      $ref: "../schemas/User.yml#/User"
+    session:
+      description: セッション
+      type: object
+      $ref: "../schemas/Session.yml#/Session"
+  required:
+    - user
+    - session
+
+AuthExample1:
+  value:
+    session:
+      id: usrYTW5CXCOHCNOVU3I
+      createdAt: "2021-01-23T01:23:45.678Z"
+      updatedAt: "2021-01-23T01:23:45.678Z"
+      key: oauscujtph

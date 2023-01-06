@@ -1,0 +1,9 @@
+LoginResponse:
+  description: ログイン
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/Auth.yml#/Auth"
+      examples:
+        example-1:
+          $ref: "../schemas/Auth.yml#/AuthExample1"
