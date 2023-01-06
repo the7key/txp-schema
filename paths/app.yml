@@ -1,0 +1,14 @@
+get:
+  summary: アプリ情報を返す
+  tags:
+    - app
+  operationId: getApp
+  parameters:
+    - $ref: "../parameters/parameters.yml#/appIdParam"
+  responses:
+    "200":
+      $ref: "../responses/AppResponse.yml#/AppResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"

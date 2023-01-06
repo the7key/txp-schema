@@ -1,0 +1,9 @@
+AppsResponse:
+  description: アプリ一覧
+  content:
+    application/json:
+      schema:
+        $ref: "../schemas/App.yml#/AppsResponse"
+      examples:
+        example-1:
+          $ref: "../schemas/App.yml#/AppsResponseExample"

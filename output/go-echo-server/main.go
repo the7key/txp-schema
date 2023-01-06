@@ -15,33 +15,42 @@ func main() {
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	
 
+    // CreateApp - アプリを登録する
+	e.POST("/apps", c.CreateApp)
 
-	// CreateCall - 一斉架電を登録する
+    // GetApp - アプリ情報を返す
+	e.GET("/apps/:appId", c.GetApp)
+
+    // GetApps - アプリ一覧を返す
+	e.GET("/apps", c.GetApps)
+
+    // CreateCall - 一斉架電を登録する
 	e.POST("/jians/:jianId/calls", c.CreateCall)
 
-	// CreateInst - 施設を登録する
+    // CreateInst - 施設を登録する
 	e.POST("/insts", c.CreateInst)
 
-	// GetInst - 施設情報を返す
+    // GetInst - 施設情報を返す
 	e.GET("/insts/:instId", c.GetInst)
 
-	// GetInsts - 施設一覧を返す
+    // GetInsts - 施設一覧を返す
 	e.GET("/insts", c.GetInsts)
 
-	// CreateInstGroup - 施設グループを作成する
+    // CreateInstGroup - 施設グループを作成する
 	e.POST("/inst-groups", c.CreateInstGroup)
 
-	// GetInstGroup - 施設グループ情報を返す
+    // GetInstGroup - 施設グループ情報を返す
 	e.GET("/inst-groups/:instGroupId", c.GetInstGroup)
 
-	// GetInstGroups - 施設グループ一覧を返す
+    // GetInstGroups - 施設グループ一覧を返す
 	e.GET("/inst-groups", c.GetInstGroups)
 
-	// CreateJian - 事案を作成する
+    // CreateJian - 事案を作成する
 	e.POST("/jians", c.CreateJian)
 
-	// GetJians - 事案一覧を返す
+    // GetJians - 事案一覧を返す
 	e.GET("/jians", c.GetJians)
 
 

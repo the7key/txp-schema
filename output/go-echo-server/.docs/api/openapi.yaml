@@ -8,6 +8,9 @@ servers:
 - description: server
   url: https://a.sample.com
 tags:
+- description: アプリ管理
+  name: app
+  x-displayName: アプリ
 - description: 事案管理
   name: jian
   x-displayName: 事案
@@ -21,6 +24,141 @@ tags:
   name: call
   x-displayName: 一斉架電
 paths:
+  /apps:
+    get:
+      operationId: getApps
+      parameters:
+      - description: ページ番号
+        in: query
+        name: page
+        schema:
+          default: 1
+          minimum: 1
+          type: integer
+      - description: 取得件数
+        in: query
+        name: size
+        schema:
+          default: 50
+          maximum: 100
+          minimum: 1
+          type: integer
+      - description: ソート順。日時でソートする場合は createdAt や -createdAt を指定する
+        in: query
+        name: sort
+        schema:
+          default: createdAt
+          type: string
+      - description: アプリ名での絞り込み
+        in: query
+        name: name
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/AppsResponseExample'
+              schema:
+                $ref: '#/components/schemas/AppsResponse'
+          description: アプリ一覧
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: アプリ一覧を返す
+      tags:
+      - app
+    post:
+      operationId: createApp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAppRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/AppExample1'
+              schema:
+                $ref: '#/components/schemas/App'
+          description: アプリ
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: アプリを登録する
+      tags:
+      - app
+  /apps/{appId}:
+    get:
+      operationId: getApp
+      parameters:
+      - description: 対象のアプリID
+        in: path
+        name: appId
+        required: true
+        schema:
+          $ref: '#/components/schemas/id'
+      responses:
+        "200":
+          content:
+            application/json:
+              examples:
+                example-1:
+                  $ref: '#/components/examples/AppExample1'
+              schema:
+                $ref: '#/components/schemas/App'
+          description: アプリ
+        "404":
+          content:
+            application/json:
+              example:
+                message: XXX not found
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: 対象が見つからない
+        "500":
+          content:
+            application/json:
+              example:
+                message: Internal Server Error
+              schema:
+                $ref: '#/components/schemas/ResponseComponentMessage'
+          description: サーバーエラー
+      summary: アプリ情報を返す
+      tags:
+      - app
   /jians:
     get:
       operationId: getJians
@@ -126,7 +264,7 @@ paths:
         name: jianId
         required: true
         schema:
-          $ref: '#/components/schemas/id'
+          $ref: '#/components/schemas/id_1'
       requestBody:
         content:
           application/json:
@@ -240,7 +378,7 @@ paths:
         name: instGroupId
         required: true
         schema:
-          $ref: '#/components/schemas/id_1'
+          $ref: '#/components/schemas/id_2'
       responses:
         "200":
           content:
@@ -375,7 +513,7 @@ paths:
         name: instId
         required: true
         schema:
-          $ref: '#/components/schemas/id_2'
+          $ref: '#/components/schemas/id_3'
       responses:
         "200":
           content:
@@ -407,6 +545,29 @@ paths:
       - inst
 components:
   examples:
+    AppsResponseExample:
+      value:
+        data:
+        - id: appYTW5CXCOHCNOVU3I
+          name: NSEYE
+          description: 動画共有アプリ
+          path: txp-example.com/#nseye
+          createdAt: 2021-01-23T01:23:45.678Z
+          updatedAt: 2021-01-23T01:23:45.678Z
+        - id: appYTW5CXCOHCNOVU3I
+          name: NSECG
+          description: 12ECGアプリ
+          path: txp-example.com/#ecg
+          createdAt: 2021-01-23T01:23:45.678Z
+          updatedAt: 2021-01-23T01:23:45.678Z
+    AppExample1:
+      value:
+        id: appYTW5CXCOHCNOVU3I
+        name: NSEYE
+        description: 動画共有アプリ
+        path: txp-example.com/#nseye
+        createdAt: 2021-01-23T01:23:45.678Z
+        updatedAt: 2021-01-23T01:23:45.678Z
     JiansResponseExample:
       value:
         data:
@@ -429,7 +590,7 @@ components:
         updatedAt: 2021-01-23T01:23:45.678Z
     CallExample1:
       value:
-        id: callYTW5CXCOHCNOVU3I
+        id: calYTW5CXCOHCNOVU3I
         name: 事案No111-1
         description: 事案No111の架電
         createdAt: 2021-01-23T01:23:45.678Z
@@ -478,6 +639,145 @@ components:
         createdAt: 2021-01-23T01:23:45.678Z
         updatedAt: 2021-01-23T01:23:45.678Z
   schemas:
+    AppsResponse:
+      description: アプリ一覧
+      example:
+        pager:
+          hasPrevPage: false
+          size: 50
+          hasNextPage: true
+          totalPage: 5
+          page: 1
+          totalCount: 234
+        data:
+        - path: txp-example.com
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          name: 事案No111-1
+          icon: filYTW5CXCOHCNOVU3I
+          description: 事案No111の架電
+          id: appYTW5CXCOHCNOVU3I
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        - path: txp-example.com
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          name: 事案No111-1
+          icon: filYTW5CXCOHCNOVU3I
+          description: 事案No111の架電
+          id: appYTW5CXCOHCNOVU3I
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        pager:
+          $ref: '#/components/schemas/Pager'
+        data:
+          items:
+            $ref: '#/components/schemas/App'
+          type: array
+      required:
+      - data
+      - pager
+      type: object
+    ResponseComponentMessage:
+      properties:
+        message:
+          description: メッセージ
+          example: Hello, world!
+          type: string
+      type: object
+    CreateAppRequest:
+      description: アプリ登録リクエスト
+      example:
+        path: txp-example.com
+        name: 事案No111-1
+        icon: filYTW5CXCOHCNOVU3I
+        description: 事案No111の架電
+      properties:
+        name:
+          description: |
+            架電名
+          example: 事案No111-1
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 事案No111の架電
+          nullable: true
+          type: string
+        path:
+          description: アプリ固有のpath
+          example: txp-example.com
+          nullable: true
+          type: string
+        icon:
+          description: iconのfileId
+          example: filYTW5CXCOHCNOVU3I
+          nullable: true
+          type: string
+      required:
+      - description
+      - icon
+      - name
+      - path
+      type: object
+    App:
+      description: 一斉架電
+      example:
+        path: txp-example.com
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: 事案No111-1
+        icon: filYTW5CXCOHCNOVU3I
+        description: 事案No111の架電
+        id: appYTW5CXCOHCNOVU3I
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        id:
+          description: 一斉架電ID
+          example: appYTW5CXCOHCNOVU3I
+          pattern: ^app[2-7A-Z]{16}$
+          type: string
+        name:
+          description: |
+            架電名
+          example: 事案No111-1
+          maxLength: 191
+          minLength: 1
+          nullable: true
+          type: string
+        description:
+          description: 説明
+          example: 事案No111の架電
+          nullable: true
+          type: string
+        path:
+          description: アプリ固有のpath
+          example: txp-example.com
+          nullable: true
+          type: string
+        icon:
+          description: iconのfileId
+          example: filYTW5CXCOHCNOVU3I
+          nullable: true
+          type: string
+        createdAt:
+          description: 作成日時
+          format: date-time
+          type: string
+        updatedAt:
+          description: 更新日時（最初は作成日時）
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - id
+      - name
+      - path
+      - updatedAt
+      type: object
+    id:
+      description: 一斉架電ID
+      example: appYTW5CXCOHCNOVU3I
+      pattern: ^app[2-7A-Z]{16}$
+      type: string
     JiansResponse:
       description: 事案一覧
       example:
@@ -509,13 +809,6 @@ components:
       required:
       - data
       - pager
-      type: object
-    ResponseComponentMessage:
-      properties:
-        message:
-          description: メッセージ
-          example: Hello, world!
-          type: string
       type: object
     CreateJianRequest:
       description: 事案作成リクエスト
@@ -581,7 +874,7 @@ components:
       - name
       - updatedAt
       type: object
-    id:
+    id_1:
       description: 事案ID
       example: jianYTW5CXCOHCNOVU3I
       pattern: ^jian[2-7A-Z]{16}$
@@ -623,13 +916,13 @@ components:
         createdAt: 2000-01-23T04:56:07.000+00:00
         name: 事案No111-1
         description: 事案No111の架電
-        id: callYTW5CXCOHCNOVU3I
+        id: calYTW5CXCOHCNOVU3I
         updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         id:
           description: 一斉架電ID
-          example: callYTW5CXCOHCNOVU3I
-          pattern: ^call[2-7A-Z]{16}$
+          example: calYTW5CXCOHCNOVU3I
+          pattern: ^cal[2-7A-Z]{16}$
           type: string
         name:
           description: |
@@ -799,7 +1092,7 @@ components:
       - name
       - updatedAt
       type: object
-    id_1:
+    id_2:
       description: 施設グループID
       example: insgYTW5CXCOHCNOVU3I
       pattern: ^insg[2-7A-Z]{16}$
@@ -909,7 +1202,7 @@ components:
       - noneNo
       - updatedAt
       type: object
-    id_2:
+    id_3:
       description: 施設ID
       example: instYTW5CXCOHCNOVU3I
       pattern: ^inst[2-7A-Z]{16}$
@@ -956,24 +1249,11 @@ components:
       - totalCount
       - totalPage
       type: object
-    Jians:
+    Apps:
       items:
-        $ref: '#/components/schemas/Jian'
+        $ref: '#/components/schemas/App'
       type: array
     name:
-      description: |
-        事案名
-      example: 20220101の事案
-      maxLength: 191
-      minLength: 1
-      nullable: true
-      type: string
-    description:
-      description: 説明
-      example: 東京都在宅からの救急要請。
-      nullable: true
-      type: string
-    name_1:
       description: |
         架電名
       example: 事案No111-1
@@ -981,9 +1261,36 @@ components:
       minLength: 1
       nullable: true
       type: string
-    description_1:
+    description:
       description: 説明
       example: 事案No111の架電
+      nullable: true
+      type: string
+    path:
+      description: アプリ固有のpath
+      example: txp-example.com
+      nullable: true
+      type: string
+    icon:
+      description: iconのfileId
+      example: filYTW5CXCOHCNOVU3I
+      nullable: true
+      type: string
+    Jians:
+      items:
+        $ref: '#/components/schemas/Jian'
+      type: array
+    name_1:
+      description: |
+        事案名
+      example: 20220101の事案
+      maxLength: 191
+      minLength: 1
+      nullable: true
+      type: string
+    description_1:
+      description: 説明
+      example: 東京都在宅からの救急要請。
       nullable: true
       type: string
     PhoneNos:

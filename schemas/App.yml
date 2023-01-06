@@ -1,12 +1,12 @@
-Call:
+App:
   description: 一斉架電
   type: object
   properties:
     id:
       description: 一斉架電ID
       type: string
-      pattern: ^cal[2-7A-Z]{16}$
-      example: calYTW5CXCOHCNOVU3I
+      pattern: ^app[2-7A-Z]{16}$
+      example: appYTW5CXCOHCNOVU3I
     name:
       description: |
         架電名
@@ -20,6 +20,16 @@ Call:
       type: string
       nullable: true
       example: 事案No111の架電
+    path:
+      description: アプリ固有のpath
+      type: string
+      nullable: true
+      example: txp-example.com
+    icon:
+      description: iconのfileId
+      type: string
+      nullable: true
+      example: filYTW5CXCOHCNOVU3I
     createdAt:
       description: 作成日時
       type: string
@@ -33,58 +43,48 @@ Call:
   required:
     - id
     - name
+    - path
     - createdAt
     - updatedAt
 
-CallExample1:
+AppExample1:
   value:
-    id: calYTW5CXCOHCNOVU3I
-    name: 事案No111-1
-    description: 事案No111の架電
+    id: appYTW5CXCOHCNOVU3I
+    name: NSEYE
+    description: 動画共有アプリ
+    path: txp-example.com/#nseye 
     createdAt: "2021-01-23T01:23:45.678Z"
     updatedAt: "2021-01-23T01:23:45.678Z"
 
-Calls:
+Apps:
   type: array
   items:
-    $ref: "#/Call"
+    $ref: "#/App"
 
-CallsResponse:
-  description: 一斉架電一覧
+AppsResponse:
+  description: アプリ一覧
   type: object
   properties:
     pager:
       $ref: "./Pager.yml#/Pager"
     data:
-      $ref: "./Call.yml#/Calls"
+      $ref: "./App.yml#/Apps"
   required:
     - pager
     - data
 
-CallsResponseExample:
+AppsResponseExample:
   value:
     data:
-      - id: calYTW5CXCOHCNOVU3I
-        name: 事案No111-1
-        description: 事案No111の1回目架電
+      - id: appYTW5CXCOHCNOVU3I
+        name: NSEYE
+        description: 動画共有アプリ
+        path: txp-example.com/#nseye 
         createdAt: "2021-01-23T01:23:45.678Z"
         updatedAt: "2021-01-23T01:23:45.678Z"
-      - id: calYTW5CXCOHCNOVU3I
-        name: 事案No211-2
-        description:  事案No211の2回目架電
+      - id: appYTW5CXCOHCNOVU3I
+        name: NSECG
+        description: 12ECGアプリ
+        path: txp-example.com/#ecg 
         createdAt: "2021-01-23T01:23:45.678Z"
         updatedAt: "2021-01-23T01:23:45.678Z"
-
-PhoneNo:
-  description: 一斉架電対象電話番号
-  type: object
-  properties:
-    phoneNo:
-      description: 一斉架電対象電話番号
-      type: string
-      example: 090-0000-0000
-
-PhoneNos:
-  type: array
-  items:
-    $ref: "#/PhoneNo"
