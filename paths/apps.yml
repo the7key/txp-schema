@@ -1,0 +1,36 @@
+get:
+  summary: アプリ一覧を返す
+  tags:
+    - app
+  operationId: getApps
+  parameters:
+    - $ref: "../parameters/parameters.yml#/pageParam"
+    - $ref: "../parameters/parameters.yml#/sizeParam"
+    - $ref: "../parameters/parameters.yml#/sortParam"
+    - $ref: "../parameters/parameters.yml#/appNameParam"
+  responses:
+    "200":
+      $ref: "../responses/AppsResponse.yml#/AppsResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"
+
+post:
+  summary: アプリを登録する
+  tags:
+    - app
+  operationId: createApp
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../requests/AppRequest.yml#/CreateAppRequest"
+  responses:
+    "201":
+      $ref: "../responses/AppResponse.yml#/AppResponse"
+    "404":
+      $ref: "../responses/ErrorResponse.yml#/NotFoundResponse"
+    "500":
+      $ref: "../responses/ErrorResponse.yml#/InternalServerErrorResponse"

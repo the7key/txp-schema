@@ -20,6 +20,9 @@ components:
       name: a.sample.com
 
 tags:
+  - name: app
+    x-displayName: アプリ
+    description: アプリ管理
   - name: jian
     x-displayName: 事案
     description: 事案管理
@@ -34,6 +37,15 @@ tags:
     description: 一斉架電管理
 
 paths:
+  /apps:
+    summary: |
+      - GET: アプリリスト取得
+      - POST: アプリ登録
+    $ref: "./paths/apps.yml"
+  /apps/{appId}:
+    summary: |
+      - GET: アプリ情報取得
+    $ref: "./paths/app.yml"
   /jians:
     summary: |
       - GET: 事案リスト取得

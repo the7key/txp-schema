@@ -1,4 +1,4 @@
-CasesResponse:
+JiansResponse:
   description: 事案一覧
   content:
     application/json:

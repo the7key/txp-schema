@@ -1,3 +1,11 @@
+appIdParam:
+  description: 対象のアプリID
+  in: path
+  name: appId
+  required: true
+  schema:
+    $ref: "../schemas/App.yml#/App/properties/id"
+
 jianIdParam:
   description: 対象の事案ID
   in: path
@@ -29,6 +37,13 @@ callIdParam:
   required: true
   schema:
     $ref: "../schemas/Call.yml#/Call/properties/id"
+
+appNameParam:
+  description: アプリ名での絞り込み
+  in: query
+  name: name
+  schema:
+    type: string
 
 jianNameParam:
   description: 事案名での絞り込み

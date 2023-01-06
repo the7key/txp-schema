@@ -1,0 +1,17 @@
+CreateAppRequest:
+  description: アプリ登録リクエスト
+  type: object
+  properties:
+    name:
+      $ref: "../schemas/App.yml#/App/properties/name"
+    description:
+      $ref: "../schemas/App.yml#/App/properties/description"
+    path:
+      $ref: "../schemas/App.yml#/App/properties/path"
+    icon:
+      $ref: "../schemas/App.yml#/App/properties/icon"
+  required:
+    - name
+    - description
+    - path
+    - icon
